@@ -20,8 +20,11 @@ type
     procedure LimparView;
     procedure LimparViewDependente;
     procedure SalvarCadastro;
-    procedure AdicionarDependente;
-    procedure AdicionarFuncionario;
+    function getListaFuncionarios: TList<TFuncionario>;
+    procedure AdicionarDependente; overload;
+    procedure AdicionarFuncionario; overload;
+    procedure AdicionarDependente(const ADependente: TDependente); overload;
+    procedure AdicionarFuncionario(const AFuncionario: TFuncionario);  overload;
     function CalcularImpostoIR: Real;
     function CalcularImpostoINSS: Real;
   end;
@@ -45,8 +48,7 @@ begin
   oDependente.IsCalculaIR := ( FViewDependente As TfrmDependente).cbIR.Checked;
   oDependente.IsCalculaINSS := ( FViewDependente As TfrmDependente).cbINSS.Checked;
   oDependente.Id_Funcionario := 0;
-  FLista.Last.Dependentes.Add(oDependente);
- 
+  AdicionarDependente(oDependente);
 end;
 
 procedure TFuncionarioController.AdicionarFuncionario;
@@ -60,7 +62,8 @@ begin
 
   oFuncionario.Salario := StrToFloatDef((FView as TfrmPrincipal)
     .edtSalario.Text, 0);
-  FLista.Add(oFuncionario);
+
+  AdicionarFuncionario(oFuncionario);
 
   (FView as TfrmPrincipal).btnAdicionarDependente.Enabled := True;
   (FView as TfrmPrincipal).btnCalcImpost.Enabled := True;
@@ -81,6 +84,12 @@ begin
 ( FViewDependente As TfrmDependente).edtNome.Clear;
 ( FViewDependente As TfrmDependente).cbIR.Checked := False;
 ( FViewDependente As TfrmDependente).cbINSS.Checked := False;
+end;
+
+procedure TFuncionarioController.AdicionarFuncionario(
+  const AFuncionario: TFuncionario);
+begin
+  FLista.Add(AFuncionario);
 end;
 
 function TFuncionarioController.CalcularImpostoINSS: Real;
@@ -148,6 +157,12 @@ begin
     oFuncionario.Free;
   end;
   FLista.Free;
+  FLista := nil;
+end;
+
+function TFuncionarioController.getListaFuncionarios: TList<TFuncionario>;
+begin
+   result := FLista;
 end;
 
 procedure TFuncionarioController.SalvarCadastro;
@@ -168,6 +183,12 @@ end;
 procedure TFuncionarioController.SetViewDependente(AView: TForm);
 begin
   FViewDependente := AView;
+end;
+
+procedure TFuncionarioController.AdicionarDependente(
+  const ADependente: TDependente);
+begin
+  FLista.Last.Dependentes.Add(ADependente);
 end;
 
 end.

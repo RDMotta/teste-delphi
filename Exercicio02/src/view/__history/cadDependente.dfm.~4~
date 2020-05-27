@@ -1,0 +1,33 @@
+object frmDependente: TfrmDependente
+  Left = 0
+  Top = 0
+  Caption = 'Dependente'
+  ClientHeight = 118
+  ClientWidth = 345
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  PixelsPerInch = 96
+  TextHeight = 13
+  object BitBtn1: TBitBtn
+    Left = 181
+    Top = 72
+    Width = 75
+    Height = 25
+    Caption = 'Guardar'
+    TabOrder = 0
+    OnClick = BitBtn1Click
+  end
+  object btnSair: TBitBtn
+    Left = 262
+    Top = 72
+    Width = 75
+    Height = 25
+    Caption = 'Sair'
+    TabOrder = 1
+  end
+end

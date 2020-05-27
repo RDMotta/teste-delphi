@@ -27,7 +27,6 @@ type
   end;
 
 implementation
-  uses uFuncionarioDTO;
 {$R *.dfm}
 
 procedure TfrmFuncionario.btnDependenteClick(Sender: TObject);

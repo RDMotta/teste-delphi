@@ -1,0 +1,14 @@
+unit uCalcStrategy;
+
+interface
+uses uDisplay;
+
+   TCalculadoraStrategy = class
+     procedure AplicarSoma (const ADisplay: TDisplay);
+     procedure AplicarDivisao (const ADisplay: TDisplay);
+     procedure AplicarSubtracao (const ADisplay: TDisplay);
+     procedure AplicarMultiplicacao (const ADisplay: TDisplay);
+   end;
+implementation
+
+end.

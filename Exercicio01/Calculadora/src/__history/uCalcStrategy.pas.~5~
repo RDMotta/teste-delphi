@@ -1,0 +1,38 @@
+unit uCalcStrategy;
+
+interface
+
+uses uDisplay, System.Classes;
+
+
+type
+  TCalculadoraStrategy = class
+    procedure AplicarSoma(const ADisplay: TDisplay);
+    procedure AplicarDivisao(const ADisplay: TDisplay);
+    procedure AplicarSubtracao(const ADisplay: TDisplay);
+    procedure AplicarMultiplicacao(const ADisplay: TDisplay);
+  end;
+
+implementation
+
+procedure TCalculadoraStrategy.AplicarSoma(const ADisplay: TDisplay);
+begin
+  ADisplay.Resultado := ADisplay.Valor1 + ADisplay.Valor2;
+end;
+
+procedure TCalculadoraStrategy.AplicarDivisao(const ADisplay: TDisplay);
+begin
+   ADisplay.Resultado := ADisplay.Valor1 / ADisplay.Valor2;
+end;
+
+procedure TCalculadoraStrategy.AplicarSubtracao(const ADisplay: TDisplay);
+begin
+  ADisplay.Resultado := ADisplay.Valor1 - ADisplay.Valor2;
+end;
+
+procedure TCalculadoraStrategy.AplicarMultiplicacao(const ADisplay: TDisplay);
+begin
+  ADisplay.Resultado := ADisplay.Valor1 * ADisplay.Valor2;
+end;
+
+end.

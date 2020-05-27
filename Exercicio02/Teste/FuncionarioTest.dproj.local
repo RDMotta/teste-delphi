@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+  <Transactions>
+    <Transaction>2020/05/26 20:32:50.038,=E:\teste-delphi\teste-delphi\Exercicio02\Teste\Unit1.pas</Transaction>
+    <Transaction>2020/05/26 20:33:50.343,E:\teste-delphi\teste-delphi\Exercicio02\Teste\src\uFuncionarioTest.pas=E:\teste-delphi\teste-delphi\Exercicio02\Teste\Unit1.pas</Transaction>
+    <Transaction>2020/05/26 20:40:12.990,E:\teste-delphi\teste-delphi\Exercicio02\Teste\src\uFuncionarioTest.pas=</Transaction>
+    <Transaction>2020/05/26 20:41:26.996,=E:\teste-delphi\teste-delphi\Exercicio02\Teste\TestuFuncionarioController.pas</Transaction>
+    <Transaction>2020/05/26 20:41:27.293,=E:\teste-delphi\teste-delphi\Exercicio02\src\controller\uFuncionarioController.pas</Transaction>
+    <Transaction>2020/05/26 20:42:33.021,=E:\teste-delphi\teste-delphi\Exercicio02\src\dao\uFuncionarioDAO.pas</Transaction>
+    <Transaction>2020/05/26 20:43:02.172,E:\teste-delphi\teste-delphi\Exercicio02\src\dao\uFuncionarioDAO.pas=</Transaction>
+    <Transaction>2020/05/26 20:43:19.966,=E:\teste-delphi\teste-delphi\Exercicio02\src\model\uFuncionario.pas</Transaction>
+    <Transaction>2020/05/26 20:44:16.561,=E:\teste-delphi\teste-delphi\Exercicio02\src\model\uDependente.pas</Transaction>
+    <Transaction>2020/05/26 20:45:24.424,=E:\teste-delphi\teste-delphi\Exercicio02\src\view\cadDependente.pas</Transaction>
+    <Transaction>2020/05/26 20:45:24.471,=E:\teste-delphi\teste-delphi\Exercicio02\src\view\cadFuncionario.pas</Transaction>
+    <Transaction>2020/05/26 20:45:43.404,=E:\teste-delphi\teste-delphi\Exercicio02\src\dao\uFuncionarioDAO.pas</Transaction>
+    <Transaction>2020/05/26 20:46:09.640,=E:\teste-delphi\teste-delphi\Exercicio02\src\dao\uDependenteDAO.pas</Transaction>
+    <Transaction>2020/05/26 20:46:11.293,=E:\teste-delphi\teste-delphi\Exercicio02\src\dao\uDM.pas</Transaction>
+    <Transaction>2020/05/26 20:46:40.089,=E:\teste-delphi\teste-delphi\Exercicio02\uDMClient.pas</Transaction>
+    <Transaction>2020/05/26 20:46:57.546,=E:\teste-delphi\teste-delphi\Exercicio02\uMain.pas</Transaction>
+    <Transaction>2020/05/26 20:47:23.746,E:\teste-delphi\teste-delphi\Exercicio02\Teste\src\TestuFuncionarioController.pas=E:\teste-delphi\teste-delphi\Exercicio02\Teste\TestuFuncionarioController.pas</Transaction>
+  </Transactions>
+</BorlandProject>

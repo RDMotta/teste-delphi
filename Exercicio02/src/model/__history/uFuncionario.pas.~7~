@@ -1,0 +1,24 @@
+unit uFuncionario;
+
+interface
+
+uses uDependente, System.Generics.Collections;
+
+type
+  TFuncionario=class
+  private
+    FCPF: String;
+    FSalario: String;
+    FNome: String;
+    FListaDependentes: TObjectList<TDependente>;
+  public
+    property Nome: String read FNome write FNome;
+    property CPF: String read FCPF write FCPF;
+    property Salario: String read FSalario write FSalario;
+    property Dependentes: TObjectList<TDependente> read FListaDependentes
+      write FListaDependentes;
+  end;
+
+implementation
+
+end.

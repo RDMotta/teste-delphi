@@ -1,0 +1,144 @@
+unit uPrincipal;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
+  System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
+  Vcl.StdCtrls, Vcl.Buttons, uDisplay, uCalcStrategy;
+
+type
+  TForm1 = class(TForm)
+    edtEntrada: TEdit;
+    btnIgual: TBitBtn;
+    btnMais: TBitBtn;
+    btnSubtrair: TBitBtn;
+    btnVezes: TBitBtn;
+    btnDividir: TBitBtn;
+    lbHistorico: TLabel;
+    btn6: TBitBtn;
+    btn8: TBitBtn;
+    btn5: TBitBtn;
+    btn3: TBitBtn;
+    btn1: TBitBtn;
+    btn4: TBitBtn;
+    btn2: TBitBtn;
+    btn0: TBitBtn;
+    btnPonto: TBitBtn;
+    btn9: TBitBtn;
+    btn7: TBitBtn;
+    procedure FormCreate(Sender: TObject);
+    procedure edtEntradaKeyPress(Sender: TObject; var Key: Char);
+    procedure btnVe1zesClick(Sender: TObject);
+    procedure btnSubtrairClick(Sender: TObject);
+    procedure btnMaisClick(Sender: TObject);
+    procedure btnDividirClick(Sender: TObject);
+    procedure btnIgualClick(Sender: TObject);
+  private
+    FDisplay: TDisplay;
+    FCalcStrategy: TCalculadoraStrategy;
+    procedure definirOperador(const pOperacao: String);
+    procedure definirValor(const AValor: String);
+  public
+    { Public declarations }
+  end;
+
+var
+  Form1: TForm1;
+
+implementation
+
+{$R *.dfm}
+
+procedure TForm1.btnSubtrairClick(Sender: TObject);
+begin
+  definirOperador((Sender as TBitBtn).Caption);
+end;
+
+procedure TForm1.btnDividirClick(Sender: TObject);
+begin
+  definirOperador((Sender as TBitBtn).Caption);
+end;
+
+procedure TForm1.btnIgualClick(Sender: TObject);
+begin
+  definirOperador((Sender as TBitBtn).Caption);
+end;
+
+procedure TForm1.btnMaisClick(Sender: TObject);
+begin
+  definirOperador((Sender as TBitBtn).Caption);
+end;
+
+procedure TForm1.btnVe1zesClick(Sender: TObject);
+begin
+ definirOperador((Sender as TBitBtn).Caption);
+end;
+
+procedure TForm1.definirOperador(const pOperacao: String);
+begin
+  if FDisplay.Operador = '' then
+  begin
+    FDisplay.Valor1 := StrToFloat(edtEntrada.Text);
+    lbHistorico.Caption := edtEntrada.Text + ' ' + pOperacao + ' ';
+    edtEntrada.Clear;
+    edtEntrada.SetFocus;
+    FDisplay.Operador := pOperacao;
+    FDisplay.UltimoOperador := pOperacao;
+    Exit;
+  end
+  else
+  begin
+    FDisplay.Valor2 := StrToFloat(edtEntrada.Text);
+    lbHistorico.Caption := lbHistorico.Caption + ' ' + edtEntrada.Text + ' ' +
+      pOperacao + ' ';
+    edtEntrada.Clear;
+    edtEntrada.SetFocus;
+
+    FCalcStrategy.AplicarResultado(FDisplay, FDisplay.UltimoOperador);
+
+    FDisplay.Valor1 := FDisplay.Resultado;
+    FDisplay.Valor2 := 0;
+    FDisplay.Resultado := 0;
+    lbHistorico.Caption := lbHistorico.Caption + '  = ' + FloatToStr(FDisplay.Resultado);
+    FDisplay.Operador := pOperacao;
+    if FDisplay.Operador <> '=' then
+    begin
+      FDisplay.UltimoOperador := pOperacao ;
+    end
+    else   lbHistorico.Caption := lbHistorico.Caption + ' ' + FDisplay.UltimoOperador + ' ';
+  end;
+end;
+
+procedure TForm1.definirValor(const AValor: String);
+begin
+  edtEntrada.Text := edtEntrada.Text + AValor;
+
+end;
+
+procedure TForm1.edtEntradaKeyPress(Sender: TObject; var Key: Char);
+begin
+  if (not FDisplay.isValorValido(Key)) then
+  begin
+    Key := #0;
+    Exit;
+  end;
+end;
+
+procedure TForm1.FormCreate(Sender: TObject);
+begin
+  FDisplay := TDisplay.Create;
+  FCalcStrategy := TCalculadoraStrategy.Create;
+end;
+
+end.
+{
+  * Quando digitarmos um número e escolhermos uma operação,
+  a calculadora checa se é a primeira vez.
+  * Se for, o resultado é o número do visor.
+  * Conforme trocamos, as operações são executadas, o valor é armazenado e a operação é atualizada.
+  * Ao clicar em igual, checamos se é a primeira vez.
+  * Se for, executamos a última operação com o número do visor.
+  * Caso não seja, a operação será executada, mas usamos o que guardamos do
+  visor no primeiro clique de igual. Isso permite que façamos 5 / 5 * 2 (igual, igual).
+}

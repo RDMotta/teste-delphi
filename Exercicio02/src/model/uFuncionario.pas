@@ -41,6 +41,7 @@ begin
     oDependente.Free;
   end;
   FListaDependentes.Free;
+  FListaDependentes := nil;
 end;
 
 end.

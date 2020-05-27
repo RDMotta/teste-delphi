@@ -1,0 +1,36 @@
+unit cadDependente;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, uFuncionarioController;
+
+type
+  TfrmDependente = class(TForm)
+  private
+    { Private declarations }
+    FController: TFuncionarioController;
+  public
+    { Public declarations }
+    procedure setController(const AController: TFuncionarioController);
+
+  end;
+
+var
+  frmDependente: TfrmDependente;
+
+implementation
+
+{$R *.dfm}
+
+{ TfrmDependente }
+
+procedure TfrmDependente.setController(
+  const AController: TFuncionarioController);
+begin
+  FController := AController;
+  AController.SetViewDependete(Self);
+end;
+
+end.

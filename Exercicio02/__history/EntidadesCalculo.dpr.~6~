@@ -1,0 +1,24 @@
+program EntidadesCalculo;
+
+uses
+  Vcl.Forms,
+  uMain in 'uMain.pas' {Form1},
+  uFuncionario in 'src\model\uFuncionario.pas',
+  uDependete in 'src\model\uDependete.pas',
+  uFuncionarioDTO in 'src\model\uFuncionarioDTO.pas',
+  uDependenteDTO in 'src\model\uDependenteDTO.pas',
+  uFuncionarioDAO in 'src\dao\uFuncionarioDAO.pas',
+  uFuncionarioController in 'src\controller\uFuncionarioController.pas',
+  cadFuncionario in 'src\view\cadFuncionario.pas' {frmFuncionario},
+  cadDependente in 'src\view\cadDependente.pas' {frmDependente};
+
+{$R *.res}
+
+begin
+  Application.Initialize;
+  Application.MainFormOnTaskbar := True;
+  Application.CreateForm(TForm1, Form1);
+  Application.CreateForm(TfrmFuncionario, frmFuncionario);
+  Application.CreateForm(TfrmDependente, frmDependente);
+  Application.Run;
+end.

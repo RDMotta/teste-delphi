@@ -1,0 +1,181 @@
+object frmPrincipal: TfrmPrincipal
+  Left = 0
+  Top = 0
+  Caption = 'Principal'
+  ClientHeight = 546
+  ClientWidth = 775
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  OnCreate = FormCreate
+  PixelsPerInch = 96
+  TextHeight = 13
+  object GroupBox1: TGroupBox
+    Left = 0
+    Top = 24
+    Width = 393
+    Height = 233
+    Caption = 'GroupBox1'
+    TabOrder = 0
+    object Label1: TLabel
+      Left = 47
+      Top = 25
+      Width = 27
+      Height = 13
+      Caption = 'Nome'
+      FocusControl = dbNome
+    end
+    object Label2: TLabel
+      Left = 55
+      Top = 52
+      Width = 19
+      Height = 13
+      Caption = 'CPF'
+      FocusControl = dbCPF
+    end
+    object Label3: TLabel
+      Left = 42
+      Top = 80
+      Width = 32
+      Height = 13
+      Caption = 'Sal'#225'rio'
+      FocusControl = dbSalario
+    end
+    object Label4: TLabel
+      Left = 63
+      Top = 106
+      Width = 11
+      Height = 13
+      Caption = 'IR'
+      FocusControl = dbSalario
+    end
+    object Label5: TLabel
+      Left = 51
+      Top = 133
+      Width = 23
+      Height = 13
+      Caption = 'INSS'
+      FocusControl = dbSalario
+    end
+    object btnAdicionarDependente: TBitBtn
+      Left = 242
+      Top = 106
+      Width = 126
+      Height = 25
+      Caption = 'Adicionar Dependente'
+      TabOrder = 0
+      OnClick = btnAdicionarDependenteClick
+    end
+    object dbNome: TDBEdit
+      Left = 89
+      Top = 22
+      Width = 279
+      Height = 21
+      DataField = 'NOME'
+      DataSource = dsFuncioario
+      TabOrder = 1
+    end
+    object dbCPF: TDBEdit
+      Left = 89
+      Top = 49
+      Width = 147
+      Height = 21
+      DataField = 'CPF'
+      DataSource = dsFuncioario
+      TabOrder = 2
+    end
+    object dbSalario: TDBEdit
+      Left = 89
+      Top = 76
+      Width = 147
+      Height = 21
+      DataField = 'SALARIO'
+      DataSource = dsFuncioario
+      TabOrder = 3
+    end
+    object btnSalvar: TBitBtn
+      Left = 242
+      Top = 168
+      Width = 126
+      Height = 25
+      Caption = 'Salvar'
+      TabOrder = 4
+      OnClick = btnSalvarClick
+    end
+    object BitBtn1: TBitBtn
+      Left = 242
+      Top = 75
+      Width = 126
+      Height = 25
+      Caption = 'Adicionar Funcion'#225'rio'
+      TabOrder = 5
+      OnClick = btnAdicionarFuncionarioClick
+    end
+    object btnCalcImpost: TBitBtn
+      Left = 242
+      Top = 137
+      Width = 126
+      Height = 25
+      Caption = 'Calcular Impostos'
+      TabOrder = 6
+      OnClick = btnCalcImpostClick
+    end
+    object edtIR: TEdit
+      Left = 89
+      Top = 103
+      Width = 121
+      Height = 21
+      Alignment = taRightJustify
+      TabOrder = 7
+    end
+    object edtINSS: TEdit
+      Left = 89
+      Top = 130
+      Width = 121
+      Height = 21
+      Alignment = taRightJustify
+      TabOrder = 8
+    end
+  end
+  object dsFuncioario: TDataSource
+    DataSet = cdsFuncionario
+    Left = 348
+    Top = 216
+  end
+  object dspFuncionario: TDataSetProvider
+    DataSet = DMClient.SQLFuncionarios
+    Options = [poCascadeDeletes, poCascadeUpdates, poAllowCommandText]
+    Left = 292
+    Top = 216
+  end
+  object cdsFuncionario: TClientDataSet
+    Aggregates = <>
+    FilterOptions = [foCaseInsensitive]
+    Params = <>
+    ProviderName = 'dspFuncionario'
+    Left = 243
+    Top = 216
+    object cdsFuncionarioID_FUNCIONARIO: TIntegerField
+      FieldName = 'ID_FUNCIONARIO'
+      Required = True
+    end
+    object cdsFuncionarioNOME: TStringField
+      FieldName = 'NOME'
+      Size = 50
+    end
+    object cdsFuncionarioCPF: TStringField
+      FieldName = 'CPF'
+      Size = 11
+    end
+    object cdsFuncionarioSALARIO: TSingleField
+      FieldName = 'SALARIO'
+    end
+    object cdsFuncionarioDATA_ATUALIZACAO: TSQLTimeStampField
+      FieldName = 'DATA_ATUALIZACAO'
+    end
+  end
+end

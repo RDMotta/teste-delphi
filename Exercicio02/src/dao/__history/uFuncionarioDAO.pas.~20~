@@ -1,0 +1,82 @@
+unit uFuncionarioDAO;
+
+interface
+
+uses
+  System.Classes, SysUtils, Data.SqlExpr, uFuncionario, uDependente,
+  uDependenteDAO, uDM, uDMClient;
+
+type
+  TFuncionarioDAO = class
+  private
+    FSQL: TSQLQuery;
+    procedure SalvarDependentes(const AFuncionario: TFuncionario;
+      const AEmTransacao: boolean = false);
+  public
+    procedure Salvar(const AFuncionario: TFuncionario;
+      const AEmTransacao: boolean = false);
+  end;
+
+implementation
+
+{ TFuncionarioDAO }
+
+procedure TFuncionarioDAO.Salvar(const AFuncionario: TFuncionario;
+  const AEmTransacao: boolean = false);
+var
+  iIdFuncionario: Integer;
+  bAbreTransacao: boolean;
+begin
+  try
+    bAbreTransacao := false;
+    FSQL := DMClient.GetGenericQuery;
+    if not AEmTransacao then
+    begin
+      bAbreTransacao := true;
+      DM.IniciarTransacao;
+    end;
+    try
+
+      iIdFuncionario := DMClient.GerarIDTabela('FUNCIONARIO');
+
+      FSQL.SQL.Add
+        ('Insert into FUNCIONARIO ( ID_FUNCIONARIO, NOME, CPF, SALARIO');
+      FSQL.SQL.Add('VALUES (:id, :nome,:cpf, :salario) ');
+      FSQL.Params.ParamByName('id').AsInteger := iIdFuncionario;
+      FSQL.Params.ParamByName('nome').AsString := AFuncionario.Nome;
+      FSQL.Params.ParamByName('cpf').AsString := AFuncionario.CPF;
+      FSQL.Params.ParamByName('salario').AsFloat := AFuncionario.Salario;;
+
+      FSQL.ExecSQL;
+      SalvarDependentes(AFuncionario, bAbreTransacao);
+    finally
+      if not AEmTransacao then
+        DM.ConfirmarTransacao;
+    end;
+
+  except
+    on E: Exception do
+      if not AEmTransacao then
+        DM.CancelarTransacao;
+  end;
+end;
+
+procedure TFuncionarioDAO.SalvarDependentes(const AFuncionario: TFuncionario;
+  const AEmTransacao: boolean = false);
+var
+  oDependenteDAO: TDependenteDAO;
+  oDependente: TDependente;
+begin
+  oDependenteDAO := TDependenteDAO.Create;
+  try
+    for oDependente in AFuncionario.Dependentes do
+    begin
+      oDependenteDAO.Salvar(oDependente, AEmTransacao);
+    end;
+  finally
+    oDependenteDAO.Free;
+  end;
+
+end;
+
+end.

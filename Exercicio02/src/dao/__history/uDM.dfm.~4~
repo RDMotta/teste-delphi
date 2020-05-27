@@ -1,0 +1,99 @@
+object DM: TDM
+  OldCreateOrder = False
+  Height = 424
+  Width = 540
+  object SQLConnection: TSQLConnection
+    DriverName = 'Firebird'
+    LoginPrompt = False
+    Params.Strings = (
+      'DriverUnit=Data.DBXFirebird'
+      
+        'DriverPackageLoader=TDBXDynalinkDriverLoader,DbxCommonDriver260.' +
+        'bpl'
+      
+        'DriverAssemblyLoader=Borland.Data.TDBXDynalinkDriverLoader,Borla' +
+        'nd.Data.DbxCommonDriver,Version=24.0.0.0,Culture=neutral,PublicK' +
+        'eyToken=91d62ebb5b0d1b1b'
+      
+        'MetaDataPackageLoader=TDBXFirebirdMetaDataCommandFactory,DbxFire' +
+        'birdDriver260.bpl'
+      
+        'MetaDataAssemblyLoader=Borland.Data.TDBXFirebirdMetaDataCommandF' +
+        'actory,Borland.Data.DbxFirebirdDriver,Version=24.0.0.0,Culture=n' +
+        'eutral,PublicKeyToken=91d62ebb5b0d1b1b'
+      'GetDriverFunc=getSQLDriverINTERBASE'
+      'LibraryName=dbxfb.dll'
+      'LibraryNameOsx=libsqlfb.dylib'
+      'VendorLib=fbclient.dll'
+      'VendorLibWin64=fbclient.dll'
+      'VendorLibOsx=/Library/Frameworks/Firebird.framework/Firebird'
+      
+        'Database=E:\teste-delphi\teste-delphi\Exercicio02\src\db\Funcion' +
+        'arioDB.fdb'
+      'User_Name=sysdba'
+      'Password=masterkey'
+      'Role=RoleName'
+      'MaxBlobSize=-1'
+      'LocaleCode=0000'
+      'IsolationLevel=ReadCommitted'
+      'SQLDialect=3'
+      'CommitRetain=False'
+      'WaitOnLocks=True'
+      'TrimChar=False'
+      'BlobSize=-1'
+      'ErrorResourceFile='
+      'RoleName=RoleName'
+      'ServerCharSet='
+      'Trim Char=False')
+    Left = 48
+    Top = 16
+  end
+  object SQLFuncionarios: TSQLDataSet
+    MaxBlobSize = -1
+    Params = <>
+    SQLConnection = SQLConnection
+    Left = 40
+    Top = 88
+  end
+  object dsFuncionarios: TDataSource
+    DataSet = SQLFuncionarios
+    Left = 40
+    Top = 136
+  end
+  object SQLDependentes: TSQLDataSet
+    MaxBlobSize = -1
+    Params = <>
+    SQLConnection = SQLConnection
+    Left = 128
+    Top = 88
+  end
+  object dsDependentes: TDataSource
+    DataSet = SQLDependentes
+    Left = 128
+    Top = 136
+  end
+  object dspFuncionarios: TDataSetProvider
+    DataSet = SQLFuncionarios
+    Left = 40
+    Top = 184
+  end
+  object dspDependentes: TDataSetProvider
+    DataSet = SQLFuncionarios
+    Left = 128
+    Top = 192
+  end
+  object cdsFuncionario: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    ProviderName = 'sdpFuncionarios'
+    Left = 36
+    Top = 240
+  end
+  object cdsDependente: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    ProviderName = 'dspDependentes'
+    Left = 124
+    Top = 248
+  end
+end

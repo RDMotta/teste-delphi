@@ -1,0 +1,171 @@
+unit uCalculadoraController;
+
+interface
+
+uses
+  Vcl.StdCtrls, System.SysUtils, uDisplay, uCalcStrategy;
+
+Type
+  TCalculadoraController = class
+  private
+    function AplicandoCalculoImposto(const AOperacao: String): boolean;
+    procedure DefinirValoresPrimeiraOperacao(const AOperacao: String);
+    function ReAplicandoCalculoImposto(const AOperacao: String): boolean;
+    function AplicandoResultado(const AOperacao: String): boolean;
+  protected
+    FDisplay: TDisplay;
+    FCalcStrategy: TCalculadoraStrategy;
+    FedtEntrada: TEdit;
+  public
+    constructor Create(var AedtEntrada: TEdit); overload;
+    destructor Destroy; overload;
+    procedure DefinirOperador(const AOperacao: String);
+    procedure DefinirValor(const AValor, AOperacao: String);
+    function isValorValido(var Key: Char): boolean;
+    procedure GuardarValor;
+    procedure AdicionarDigito(const ADigito: String);
+    function AplicarResultado(const AOperacao: String): Double;
+    function AplicarImpostoA: Double;
+    function AplicarImpostoB: Double;
+    function AplicarImpostoC: Double;
+  end;
+
+implementation
+ const
+       DECIMAL_SEPARADOR=',';
+{ TCalculadoraController }
+
+procedure TCalculadoraController.AdicionarDigito(const ADigito: String);
+begin
+  if (ADigito = DECIMAL_SEPARADOR) and (Pos(DECIMAL_SEPARADOR, FedtEntrada.Text) > 0) then
+    Exit;
+  FedtEntrada.Text := FedtEntrada.Text + ADigito;
+end;
+
+function TCalculadoraController.AplicarImpostoA: Double;
+begin
+  FDisplay.Operacao := tpImpA;
+  FCalcStrategy.AplicarResultado(FDisplay);
+  result := FDisplay.Resultado;
+end;
+
+function TCalculadoraController.AplicarImpostoB: Double;
+begin
+  FDisplay.Operacao := tpImpB;
+  FCalcStrategy.AplicarResultado(FDisplay);
+  result := FDisplay.Resultado;
+end;
+
+function TCalculadoraController.AplicarImpostoC: Double;
+begin
+  FDisplay.Operacao := tpImpC;
+  FCalcStrategy.AplicarResultado(FDisplay);
+  result := FDisplay.Resultado;
+end;
+
+function TCalculadoraController.AplicarResultado(const AOperacao
+  : String): Double;
+begin
+  if (FedtEntrada.Text = EmptyStr) then
+    Exit;
+  FDisplay.Valor2 := StrToFloat(FedtEntrada.Text);
+  FCalcStrategy.AplicarResultado(FDisplay, FDisplay.UltimoOperador);
+  Self.GuardarValor;
+  FDisplay.Operador := AOperacao;
+  if not FDisplay.Operador in [tpResultado] then
+  begin
+    FDisplay.UltimoOperador := AOperacao;
+  end;
+  result := FDisplay.Resultado;
+end;
+
+constructor TCalculadoraController.Create(var AedtEntrada: TEdit);
+begin
+  FedtEntrada := AedtEntrada;
+  FDisplay := TDisplay.Create;
+  FCalcStrategy := TCalculadoraStrategy.Create;
+end;
+
+function TCalculadoraController.AplicandoCalculoImposto(const AOperacao
+  : String): boolean;
+begin
+  result := ((AOperacao = 'A') or (AOperacao = 'B') or (AOperacao = 'C') and
+    (FedtEntrada.Text <> EmptyStr));
+end;
+
+function TCalculadoraController.ReAplicandoCalculoImposto(const AOperacao
+  : String): boolean;
+begin
+  result := ((FDisplay.UltimoOperador = 'A') or (FDisplay.UltimoOperador = 'B')
+    or (FDisplay.UltimoOperador = 'C') and (AOperacao = '='));
+end;
+
+function TCalculadoraController.AplicandoResultado(const AOperacao
+  : String): boolean;
+begin
+  result := (FDisplay.Operador = EmptyStr) or
+    ((FDisplay.Operador = '=') And (AOperacao <> FDisplay.Operador));
+end;
+
+procedure TCalculadoraController.DefinirValoresPrimeiraOperacao
+  (const AOperacao: String);
+begin
+  DefinirValor(FedtEntrada.Text, AOperacao);
+  FedtEntrada.Text := FloatToStr(AplicarResultado(AOperacao));
+  FedtEntrada.SetFocus;
+  FDisplay.Resultado := 0;
+end;
+
+procedure TCalculadoraController.DefinirOperador(const AOperacao: String);
+begin
+  if AplicandoCalculoImposto(AOperacao) then
+  begin
+    DefinirValoresPrimeiraOperacao(AOperacao);
+    Exit;
+  end;
+
+  if ReAplicandoCalculoImposto(AOperacao) then
+  begin
+    DefinirValoresPrimeiraOperacao(FDisplay.UltimoOperador);
+    Exit;
+  end;
+
+  if AplicandoResultado(AOperacao) then
+    DefinirValor(FedtEntrada.Text, AOperacao)
+  else
+  begin
+    FedtEntrada.Text := FloatToStr(AplicarResultado(AOperacao));
+    FedtEntrada.SetFocus;
+    FDisplay.Resultado := 0;
+  end;
+end;
+
+procedure TCalculadoraController.DefinirValor(const AValor, AOperacao: String);
+begin
+  if AValor = '' then
+    Exit;
+
+  FDisplay.Valor1 := StrToFloat(AValor);
+  FedtEntrada.SetFocus;
+  FDisplay.Operador := AOperacao;
+  FDisplay.UltimoOperador := AOperacao;
+end;
+
+destructor TCalculadoraController.Destroy;
+begin
+  FDisplay.Free;
+  FCalcStrategy.Free;
+end;
+
+procedure TCalculadoraController.GuardarValor;
+begin
+  FDisplay.Valor1 := FDisplay.Resultado;
+  FDisplay.Valor2 := 0;
+end;
+
+function TCalculadoraController.isValorValido(var Key: Char): boolean;
+begin
+  result := FDisplay.isValorValido(Key);
+end;
+
+end.

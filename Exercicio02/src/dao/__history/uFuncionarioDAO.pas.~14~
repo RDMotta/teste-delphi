@@ -1,0 +1,63 @@
+unit uFuncionarioDAO;
+
+interface
+
+uses
+  System.Classes, SysUtils, Data.SqlExpr, uFuncionario, uDependente,
+  uDependenteDAO, uDM, uDMClient;
+
+type
+  TFuncionarioDAO = class
+  private
+    FSQL: TSQLQuery;
+    procedure SalvarDependentes(const AFuncionario: TFuncionario);
+  public
+    procedure Salvar(const AFuncionario: TFuncionario);
+  end;
+
+implementation
+
+{ TFuncionarioDAO }
+
+procedure TFuncionarioDAO.Salvar(const AFuncionario: TFuncionario);
+var
+  iIdFuncionario: Integer;
+  oDependenteDAO: TDependenteDAO;
+begin
+  try
+    DM.IniciarTransacao;
+    iIdFuncionario := DMClient.GerarIDTabela('FUNCIONARIO');
+    try
+
+      FSQL := DMClient.GetGenericQuery;
+      FSQL.SQL.Add
+        ('Insert into FUNCIONARIO ( ID_FUNCIONARIO, NOME, CPF, SALARIO, DATA_ATUALIZACAO');
+      FSQL.SQL.Add('VALUES (:id, :nome,:cpf, :salario, :data_atual) ');
+      FSQL.Params.ParamByName('id').Value := iIdFuncionario;
+      FSQL.Params.ParamByName('nome').Value := AFuncionario.Nome;
+      FSQL.Params.ParamByName('cpf').Value := AFuncionario.CPF;
+      FSQL.Params.ParamByName('salario').Value := AFuncionario.Salario;
+      FSQL.Params.ParamByName('data_atual').Value := SysUtils.Now;
+
+      FSQL.ExecSQL;
+
+      SalvarDependentes(AFuncionario);
+    finally
+      DM.ConfirmarTransacao;
+    end;
+
+  except
+    on E: Exception do
+      DM.CancelarTransacao;
+  end;
+end;
+
+procedure TFuncionarioDAO.SalvarDependentes(const AFuncionario: TFuncionario);
+var
+  oDependenteDAO : TDependenteDAO;
+begin
+  oDependenteDAO := TDependenteDAO.Create;
+
+end;
+
+end.

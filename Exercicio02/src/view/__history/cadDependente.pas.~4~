@@ -1,0 +1,45 @@
+unit cadDependente;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, uFuncionarioController, Vcl.StdCtrls,
+  Vcl.Buttons;
+
+type
+  TfrmDependente = class(TForm)
+    BitBtn1: TBitBtn;
+    btnSair: TBitBtn;
+    procedure BitBtn1Click(Sender: TObject);
+  private
+    { Private declarations }
+    FController: TFuncionarioController;
+  public
+    { Public declarations }
+    procedure setController(const AController: TFuncionarioController);
+
+  end;
+
+var
+  frmDependente: TfrmDependente;
+
+implementation
+
+{$R *.dfm}
+
+{ TfrmDependente }
+
+procedure TfrmDependente.BitBtn1Click(Sender: TObject);
+begin
+   FController.AdicionarDependente;
+end;
+
+procedure TfrmDependente.setController(
+  const AController: TFuncionarioController);
+begin
+  FController := AController;
+  AController.SetViewDependente(Self);
+end;
+
+end.

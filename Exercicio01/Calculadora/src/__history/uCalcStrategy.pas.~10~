@@ -1,0 +1,116 @@
+unit uCalcStrategy;
+
+interface
+
+uses uDisplay, SysUtils, Classes;
+
+type
+  TCalculadoraStrategy = class
+  private
+    procedure AplicarSoma(const ADisplay: TDisplay);
+    procedure AplicarDivisao(const ADisplay: TDisplay);
+    procedure AplicarSubtracao(const ADisplay: TDisplay);
+    procedure AplicarMultiplicacao(const ADisplay: TDisplay);
+    procedure AplicarImpostoA(const ADisplay: TDisplay);
+    procedure AplicarImpostoB(const ADisplay: TDisplay);
+    procedure AplicarImpostoC(const ADisplay: TDisplay);
+  public
+    procedure AplicarResultado(const ADisplay: TDisplay);
+
+  end;
+
+implementation
+
+procedure TCalculadoraStrategy.AplicarSoma(const ADisplay: TDisplay);
+begin
+  ADisplay.Resultado := ADisplay.Valor1 + ADisplay.Valor2;
+end;
+
+procedure TCalculadoraStrategy.AplicarDivisao(const ADisplay: TDisplay);
+begin
+  try
+    ADisplay.Resultado := ADisplay.Valor1 / ADisplay.Valor2;
+  except
+    on E: Exception do
+      raise EDivByZero.Create
+        ('Atenção: Não é possível realizar divisão por zero.');
+  end;
+end;
+
+procedure TCalculadoraStrategy.AplicarSubtracao(const ADisplay: TDisplay);
+begin
+  ADisplay.Resultado := ADisplay.Valor1 - ADisplay.Valor2;
+end;
+
+procedure TCalculadoraStrategy.AplicarImpostoA(const ADisplay: TDisplay);
+begin
+  ADisplay.Resultado := (ADisplay.Valor1 * 0.2) - 500;
+  if ADisplay.Resultado < 0 then
+    ADisplay.Resultado := 0;
+end;
+
+procedure TCalculadoraStrategy.AplicarImpostoB(const ADisplay: TDisplay);
+var
+  oDisplayA: TDisplay;
+begin
+  oDisplayA := TDisplay.Create;
+  try
+    oDisplayA.Valor1 := ADisplay.Valor1;
+    AplicarImpostoA(oDisplayA);
+  finally
+    oDisplayA.Free;
+  end;
+
+  ADisplay.Resultado := oDisplayA.Resultado - 15;
+  if ADisplay.Resultado < 0 then
+    ADisplay.Resultado := 0;
+end;
+
+procedure TCalculadoraStrategy.AplicarImpostoC(const ADisplay: TDisplay);
+var
+  oDisplayA: TDisplay;
+  oDisplayB: TDisplay;
+begin
+  oDisplayA := TDisplay.Create;
+  oDisplayB := TDisplay.Create;
+  Try
+    oDisplayA.Valor1 := ADisplay.Valor1;
+    oDisplayB.Valor1 := ADisplay.Valor1;
+    AplicarImpostoA(oDisplayA);
+    AplicarImpostoB(oDisplayB);
+    ADisplay.Resultado := oDisplayA.Resultado + oDisplayB.Resultado;
+    if ADisplay.Resultado < 0 then
+      ADisplay.Resultado := 0;
+  Finally
+    oDisplayA.Free;
+    oDisplayB.Free;
+  End;
+end;
+
+procedure TCalculadoraStrategy.AplicarMultiplicacao(const ADisplay: TDisplay);
+begin
+  ADisplay.Resultado := ADisplay.Valor1 * ADisplay.Valor2;
+end;
+
+procedure TCalculadoraStrategy.AplicarResultado(const ADisplay: TDisplay);
+begin
+  case ADisplay.Operacao of
+    tpSoma:
+      AplicarSoma(ADisplay);
+    tpMult:
+      AplicarMultiplicacao(ADisplay);
+    tpDiv:
+      AplicarDivisao(ADisplay);
+    tpSub:
+      AplicarSubtracao(ADisplay);
+    tpImpA:
+      AplicarImpostoA(ADisplay);
+    tpImpB:
+      AplicarImpostoB(ADisplay);
+    tpImpC:
+      AplicarImpostoC(ADisplay);
+  end;
+
+end;
+
+end.
